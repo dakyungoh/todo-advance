@@ -1,0 +1,19 @@
+{
+    "todoList": [
+        {
+            "title": "공부하기",
+            "isDone": false,
+            "comments": ["공부 열심히 하잣!!!"]
+        },
+        {
+            "title": "운동하기",
+            "isDone": false,
+            "comments": ["공부 끝나고 운동할거에요.", "콩돌맨 산책도 합시다"]
+        }, 
+        {
+            "title": "놀기",
+            "isDone": true,
+            "comments": []
+        }
+    ]
+}
