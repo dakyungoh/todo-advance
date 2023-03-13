@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 
-import { getTodoList } from "./api";
+import { getTodoList, postTodoItem } from "./api";
 
 function App() {
+  const [newTodoItemTitle, setNewTodoItemTitle] = useState("안녕");
   const [todoList, setTodoList] = useState([]);
 
   // useEffect(함수, [변수목록배열])
@@ -14,13 +15,33 @@ function App() {
 
   async function fetchTodoList() {
     const todos = await getTodoList();
-    console.log(todos);
     setTodoList(todos);
+  }
+
+  function onClickAddButton() {
+    if (newTodoItemTitle.length > 0) {
+      postTodoItem(newTodoItemTitle);
+      // setNewTodoItemTitle("");
+    }
   }
 
   return (
     <div className="App">
       <div className="App-title">TODO LIST</div>
+      <div className="">
+        <input
+          type="text"
+          className="input-box"
+          placeholder="내용을 입력하세요."
+          value={newTodoItemTitle}
+          onChange={(event) => {
+            setNewTodoItemTitle(event.target.value);
+          }}
+        />
+        <button className="add-button" onClick={onClickAddButton}>
+          ADD
+        </button>
+      </div>
       <div className="App-todo-list">
         {todoList.map((todoItem) => {
           return (

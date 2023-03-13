@@ -1,9 +1,19 @@
 console.log("start server");
 
 const express = require("express");
-const todoList = require("./todo-list.json");
+const cors = require("cors");
+const fs = require("fs");
+
+const bodyParser = require("body-parser");
+
+const data = require("./todo-list.json");
+// const todoListWriter = fs.createWriteStream("./todo-list.json");
 
 const app = express();
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 const port = 8000;
 
 // TODO
@@ -15,15 +25,26 @@ const port = 8000;
 //   4.2. 했는지 여부 변경(체크박스) ( )
 
 app.get("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-origin", "*");
   res.send({ value: "Hello World!" });
 });
 
 app.get("/todo-list", (req, res) => {
   console.log("get todo list");
-  res.setHeader("Access-Control-Allow-origin", "*");
-  res.header("Content-Type", "application/json");
-  res.send(JSON.stringify(todoList));
+  res.send(JSON.stringify(data));
+});
+
+app.post("/todo-item", (req, res) => {
+  console.log("post todo item", req.body);
+  const newTodoItem = {
+    title: req.body.title,
+    isDone: false,
+    comments: [],
+  };
+
+  data.todoList.push(newTodoItem);
+  console.log(data);
+  // todoListWriter.write(JSON.stringify(data));
+  res.send("Got a POST request");
 });
 
 app.listen(port, () => {

@@ -5,4 +5,10 @@ async function getTodoList() {
   return response.data.todoList;
 }
 
-export { getTodoList };
+function postTodoItem(newTodoItemTitle) {
+  axios.post("http://localhost:8000/todo-item", {
+    title: newTodoItemTitle,
+  });
+}
+
+export { getTodoList, postTodoItem };
