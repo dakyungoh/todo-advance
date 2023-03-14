@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { deleteTodoItem } from "../api";
 
 function TodoItem({
@@ -8,6 +9,8 @@ function TodoItem({
   setEditingName,
   fetchTodoList,
 }) {
+  const navigate = useNavigate();
+
   function onClickEditButton(index) {
     setEditingIndex(index);
     setEditingName(todoList[index].name);
@@ -24,6 +27,9 @@ function TodoItem({
         className={
           todoItem.isDone ? "todo-item-name-line-through" : "todo-item-name"
         }
+        onClick={() => {
+          navigate(`/todo/${todoItem.id}`);
+        }}
       >
         {todoItem.name}
       </span>

@@ -7,6 +7,11 @@ async function getTodoList() {
   return response.data;
 }
 
+async function getTodoItem(id) {
+  const response = await axios.get(`${API_URL}/todo/${id}`);
+  return response.data;
+}
+
 async function postTodoItem(newTodoItemName) {
   const response = await axios.post(`${API_URL}/todo`, {
     name: newTodoItemName,
@@ -35,6 +40,7 @@ async function updateNameTodoItem(id, nextName) {
 
 export {
   getTodoList,
+  getTodoItem,
   postTodoItem,
   deleteTodoItem,
   updateIsDoneTodoItem,
