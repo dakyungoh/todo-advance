@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { getTodoList, postTodoItem } from "./api";
 
 function App() {
-  const [newTodoItemTitle, setNewTodoItemTitle] = useState("안녕");
+  const [newTodoItemName, setNewTodoItemName] = useState("");
   const [todoList, setTodoList] = useState([]);
 
   // useEffect(함수, [변수목록배열])
@@ -14,15 +14,17 @@ function App() {
   }, []);
 
   async function fetchTodoList() {
-    const todos = await getTodoList();
-    setTodoList(todos);
+    const nextTodoList = await getTodoList();
+    setTodoList(nextTodoList);
   }
 
-  function onClickAddButton() {
-    if (newTodoItemTitle.length > 0) {
-      postTodoItem(newTodoItemTitle);
-      // setNewTodoItemTitle("");
+  async function onClickAddButton() {
+    if (newTodoItemName.length === 0) {
+      return;
     }
+    await postTodoItem(newTodoItemName);
+    setNewTodoItemName("");
+    fetchTodoList();
   }
 
   return (
@@ -33,9 +35,9 @@ function App() {
           type="text"
           className="input-box"
           placeholder="내용을 입력하세요."
-          value={newTodoItemTitle}
+          value={newTodoItemName}
           onChange={(event) => {
-            setNewTodoItemTitle(event.target.value);
+            setNewTodoItemName(event.target.value);
           }}
         />
         <button className="add-button" onClick={onClickAddButton}>
@@ -45,7 +47,7 @@ function App() {
       <div className="App-todo-list">
         {todoList.map((todoItem) => {
           return (
-            <div className="todo-item" key={todoItem.title}>
+            <div className="todo-item" key={todoItem.id}>
               <input
                 className="todo-item-checkbox"
                 type="checkbox"
@@ -57,11 +59,11 @@ function App() {
               <span
                 className={
                   todoItem.isDone
-                    ? "todo-item-text-line-through"
-                    : "todo-item-text"
+                    ? "todo-item-name-line-through"
+                    : "todo-item-name"
                 }
               >
-                {todoItem.title}
+                {todoItem.name}
               </span>
               <button
                 className="delete-button"

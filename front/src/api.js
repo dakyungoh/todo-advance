@@ -1,14 +1,17 @@
 import axios from "axios";
 
+const API_URL = "http://localhost:8000/api";
+
 async function getTodoList() {
-  const response = await axios.get("http://localhost:8000/todo-list");
-  return response.data.todoList;
+  const response = await axios.get(`${API_URL}/todo`);
+  return response.data;
 }
 
-function postTodoItem(newTodoItemTitle) {
-  axios.post("http://localhost:8000/todo-item", {
-    title: newTodoItemTitle,
+async function postTodoItem(newTodoItemName) {
+  const response = await axios.post(`${API_URL}/todo`, {
+    name: newTodoItemName,
   });
+  return response;
 }
 
 export { getTodoList, postTodoItem };
