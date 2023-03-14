@@ -76,7 +76,7 @@ app.put("/api/todo/:id/is-done", (req, res) => {
   if (!todoItem) {
     return res.status(404).send("The item with the given ID was not found.");
   }
-  todoItem.isDone = req.body.isDone || todoItem.isDone;
+  todoItem.isDone = req.body.isDone;
   saveTodoList(todoList);
   res.send(todoItem);
 });
