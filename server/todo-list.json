@@ -1,17 +1,10 @@
 {
   "todoList": [
     {
-      "id": "1",
-      "name": "공부하기",
+      "id": "fe6b456c-57ba-41f8-af3d-7a6e9cd41f25",
+      "name": "fdsaf",
       "isDone": false,
-      "comments": ["공부 열심히 하잣!!!"]
-    },
-    {
-      "id": "2",
-      "name": "운동하기",
-      "isDone": false,
-      "comments": ["공부 끝나고 운동할거에요.", "콩돌맨 산책도 합시다"]
-    },
-    { "id": "3", "name": "놀기", "isDone": true, "comments": [] }
+      "comments": []
+    }
   ]
 }

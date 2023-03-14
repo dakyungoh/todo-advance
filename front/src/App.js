@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getTodoList, postTodoItem } from "./api";
+import { deleteTodoItem, getTodoList, postTodoItem } from "./api";
 
 function App() {
   const [newTodoItemName, setNewTodoItemName] = useState("");
@@ -24,6 +24,11 @@ function App() {
     }
     await postTodoItem(newTodoItemName);
     setNewTodoItemName("");
+    fetchTodoList();
+  }
+
+  async function onClickDeleteButton(id) {
+    await deleteTodoItem(id);
     fetchTodoList();
   }
 
@@ -68,7 +73,7 @@ function App() {
               <button
                 className="delete-button"
                 onClick={() => {
-                  console.log("click checkbox");
+                  onClickDeleteButton(todoItem.id);
                 }}
               >
                 X

@@ -14,4 +14,9 @@ async function postTodoItem(newTodoItemName) {
   return response;
 }
 
-export { getTodoList, postTodoItem };
+async function deleteTodoItem(id) {
+  const response = await axios.delete(`${API_URL}/todo/${id}`);
+  return response;
+}
+
+export { getTodoList, postTodoItem, deleteTodoItem };

@@ -113,7 +113,7 @@ function getTodoList() {
 }
 
 function saveTodoList(todoList) {
-  const data = JSON.stringify({ todoList });
+  const data = JSON.stringify({ todoList }, undefined, 2);
   fs.writeFileSync(FILE_NAME, data);
 }
 
