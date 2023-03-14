@@ -13,7 +13,6 @@ export default function TodoDetailPage() {
 
   async function fetchTodoItem() {
     const res = await getTodoItem(id);
-    console.log("res", res);
     setTodoItem(res);
   }
 
