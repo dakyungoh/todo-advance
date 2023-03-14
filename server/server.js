@@ -68,19 +68,6 @@ app.put("/api/todo/:id/name", (req, res) => {
   res.send(todoItem);
 });
 
-// PUT (update) an name field of an item by ID
-// req.body = { isDone: boolean }
-app.put("/api/todo/:id/name", (req, res) => {
-  const todoList = getTodoList();
-  const todoItem = todoList.find((item) => item.id === req.params.id);
-  if (!todoItem) {
-    return res.status(404).send("The item with the given ID was not found.");
-  }
-  todoItem.name = req.body.name || todoItem.name;
-  saveTodoList(todoList);
-  res.send(todoItem);
-});
-
 // PUT (update) an isDone field of an item by ID
 // req.body = { isDone: boolean }
 app.put("/api/todo/:id/is-done", (req, res) => {
@@ -102,7 +89,7 @@ app.put("/api/todo/:id/comment", (req, res) => {
   if (!todoItem) {
     return res.status(404).send("The item with the given ID was not found.");
   }
-  todoItem.comment.append(res.comment);
+  todoItem.comments.append(res.comment);
   saveTodoList(todoList);
   res.send(todoItem);
 });
