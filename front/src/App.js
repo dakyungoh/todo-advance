@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 
-import {
-  deleteTodoItem,
-  getTodoList,
-  postTodoItem,
-  updateIsDoneTodoItem,
-  updateNameTodoItem,
-} from "./api";
+import { getTodoList, postTodoItem, updateIsDoneTodoItem } from "./api";
+
+import EditingTodoItem from "./components/EditingTodoItem";
+import TodoItem from "./components/TodoItem";
 
 function App() {
   const [newTodoItemName, setNewTodoItemName] = useState("");
@@ -35,31 +32,9 @@ function App() {
     fetchTodoList();
   }
 
-  async function onClickDeleteButton(id) {
-    await deleteTodoItem(id);
-    fetchTodoList();
-  }
-
   async function onClickCheckbox(id, isDone) {
     await updateIsDoneTodoItem(id, !isDone);
     fetchTodoList();
-  }
-
-  async function onClickSaveButton(id, name) {
-    await updateNameTodoItem(id, name);
-    setEditingIndex(-1);
-    setEditingName("");
-    fetchTodoList();
-  }
-
-  function onClickEditButton(index) {
-    setEditingIndex(index);
-    setEditingName(todoList[index].name);
-  }
-
-  function onClickCancelButton() {
-    setEditingIndex(-1);
-    setEditingName("");
   }
 
   return (
@@ -92,58 +67,22 @@ function App() {
                 }}
               />
               {index === editingIndex ? (
-                <>
-                  <input
-                    value={editingName}
-                    onChange={(e) => {
-                      setEditingName(e.target.value);
-                    }}
-                  />
-                  <button
-                    className="delete-button"
-                    onClick={() => {
-                      onClickCancelButton();
-                    }}
-                  >
-                    취소
-                  </button>
-                  <button
-                    className="edit-button"
-                    onClick={() => {
-                      onClickSaveButton(todoItem.id, editingName);
-                    }}
-                  >
-                    SAVE
-                  </button>
-                </>
+                <EditingTodoItem
+                  setEditingIndex={setEditingIndex}
+                  setEditingName={setEditingName}
+                  fetchTodoList={fetchTodoList}
+                  editingName={editingName}
+                  todoItem={todoItem}
+                />
               ) : (
-                <>
-                  <span
-                    className={
-                      todoItem.isDone
-                        ? "todo-item-name-line-through"
-                        : "todo-item-name"
-                    }
-                  >
-                    {todoItem.name}
-                  </span>
-                  <button
-                    className="delete-button"
-                    onClick={() => {
-                      onClickDeleteButton(todoItem.id);
-                    }}
-                  >
-                    X
-                  </button>
-                  <button
-                    className="edit-button"
-                    onClick={() => {
-                      onClickEditButton(index);
-                    }}
-                  >
-                    EDIT
-                  </button>
-                </>
+                <TodoItem
+                  todoList={todoList}
+                  todoItem={todoItem}
+                  index={index}
+                  setEditingIndex={setEditingIndex}
+                  setEditingName={setEditingName}
+                  fetchTodoList={fetchTodoList}
+                />
               )}
             </div>
           );
