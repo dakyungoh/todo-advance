@@ -1,5 +1,5 @@
 # To Do Advance 
-2023년 3월 2주차 토이 프로젝트
+2023년 3월 2주차 ~ 3 토이 프로젝트
 
 ## 목표
 - 컴포넌트를 적절하게 분리하여 [리액트](https://ko.reactjs.org/docs/components-and-props.html) 앱을 구성한다.
