@@ -5,11 +5,14 @@ import {
   getTodoList,
   postTodoItem,
   updateIsDoneTodoItem,
+  updateNameTodoItem,
 } from "./api";
 
 function App() {
   const [newTodoItemName, setNewTodoItemName] = useState("");
   const [todoList, setTodoList] = useState([]);
+  const [editingName, setEditingName] = useState("");
+  const [editingIndex, setEditingIndex] = useState(-1);
 
   // useEffect(함수, [변수목록배열])
   // useEffect는 변수목록배열로 받은 변수 중 한가지라도 값이 바뀌면 함수 영역을 실행시켜준다.
@@ -42,6 +45,23 @@ function App() {
     fetchTodoList();
   }
 
+  async function onClickSaveButton(id, name) {
+    await updateNameTodoItem(id, name);
+    setEditingIndex(-1);
+    setEditingName("");
+    fetchTodoList();
+  }
+
+  function onClickEditButton(index) {
+    setEditingIndex(index);
+    setEditingName(todoList[index].name);
+  }
+
+  function onClickCancelButton() {
+    setEditingIndex(-1);
+    setEditingName("");
+  }
+
   return (
     <div className="App">
       <div className="App-title">TODO LIST</div>
@@ -60,7 +80,7 @@ function App() {
         </button>
       </div>
       <div className="App-todo-list">
-        {todoList.map((todoItem) => {
+        {todoList.map((todoItem, index) => {
           return (
             <div className="todo-item" key={todoItem.id}>
               <input
@@ -71,23 +91,60 @@ function App() {
                   onClickCheckbox(todoItem.id, todoItem.isDone);
                 }}
               />
-              <span
-                className={
-                  todoItem.isDone
-                    ? "todo-item-name-line-through"
-                    : "todo-item-name"
-                }
-              >
-                {todoItem.name}
-              </span>
-              <button
-                className="delete-button"
-                onClick={() => {
-                  onClickDeleteButton(todoItem.id);
-                }}
-              >
-                X
-              </button>
+              {index === editingIndex ? (
+                <>
+                  <input
+                    value={editingName}
+                    onChange={(e) => {
+                      setEditingName(e.target.value);
+                    }}
+                  />
+                  <button
+                    className="delete-button"
+                    onClick={() => {
+                      onClickCancelButton();
+                    }}
+                  >
+                    취소
+                  </button>
+                  <button
+                    className="edit-button"
+                    onClick={() => {
+                      onClickSaveButton(todoItem.id, editingName);
+                    }}
+                  >
+                    SAVE
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span
+                    className={
+                      todoItem.isDone
+                        ? "todo-item-name-line-through"
+                        : "todo-item-name"
+                    }
+                  >
+                    {todoItem.name}
+                  </span>
+                  <button
+                    className="delete-button"
+                    onClick={() => {
+                      onClickDeleteButton(todoItem.id);
+                    }}
+                  >
+                    X
+                  </button>
+                  <button
+                    className="edit-button"
+                    onClick={() => {
+                      onClickEditButton(index);
+                    }}
+                  >
+                    EDIT
+                  </button>
+                </>
+              )}
             </div>
           );
         })}
