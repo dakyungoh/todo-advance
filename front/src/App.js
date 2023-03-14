@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { deleteTodoItem, getTodoList, postTodoItem } from "./api";
+import {
+  deleteTodoItem,
+  getTodoList,
+  postTodoItem,
+  updateIsDoneTodoItem,
+} from "./api";
 
 function App() {
   const [newTodoItemName, setNewTodoItemName] = useState("");
@@ -32,6 +37,11 @@ function App() {
     fetchTodoList();
   }
 
+  async function onClickCheckbox(id, isDone) {
+    await updateIsDoneTodoItem(id, !isDone);
+    fetchTodoList();
+  }
+
   return (
     <div className="App">
       <div className="App-title">TODO LIST</div>
@@ -58,7 +68,7 @@ function App() {
                 type="checkbox"
                 checked={todoItem.isDone}
                 onChange={() => {
-                  console.log("click checkbox");
+                  onClickCheckbox(todoItem.id, todoItem.isDone);
                 }}
               />
               <span

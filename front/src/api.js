@@ -19,4 +19,11 @@ async function deleteTodoItem(id) {
   return response;
 }
 
-export { getTodoList, postTodoItem, deleteTodoItem };
+async function updateIsDoneTodoItem(id, nextIsDone) {
+  const response = await axios.put(`${API_URL}/todo/${id}/is-done`, {
+    isDone: nextIsDone,
+  });
+  return response;
+}
+
+export { getTodoList, postTodoItem, deleteTodoItem, updateIsDoneTodoItem };
